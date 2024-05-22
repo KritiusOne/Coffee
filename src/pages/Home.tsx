@@ -1,5 +1,9 @@
+import { Layout } from "../components/UI/Layout"
+
 export const Home: React.FC = ()=>{
   return (
-    <h1>HOME</h1>
+    <Layout>
+      <h1>HOME</h1>
+    </Layout>
   )
 }
