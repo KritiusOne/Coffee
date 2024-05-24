@@ -13,12 +13,12 @@ export const Layout: React.FC<Props> = ({children})=>{
 
   return (
     <div className="Layout">
-      <Header className="Header" />
+      <Header className="Header h-20" />
       <div className="main">
         {
           viewAsideMenu && <MenuAside />
         }
-        <main >
+        <main className="w-full Content">
           {
             children
           }

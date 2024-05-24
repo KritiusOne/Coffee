@@ -1,14 +1,12 @@
 .Layout {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(4, 1fr);
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;;
   grid-template-areas:
-  "Header Header Header Header"
-  "main main main main"
-  "main main main main"
-  "main main main main"
-  "Footer Footer Footer Footer";
-  height: 100vh;
+  "Header"
+  "main"
+  "Footer ";
+  min-height: 100vh;
 }
 .Header {
   grid-area: Header;
@@ -18,4 +16,11 @@
 }
 .main {
   grid-area: main;
+  display: flex;
+  flex-direction: column;
+}
+.Content{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
