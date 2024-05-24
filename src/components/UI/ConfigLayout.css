@@ -4,10 +4,10 @@
   grid-template-rows: repeat(4, 1fr);
   grid-template-areas:
   "Header Header Header Header"
-  "aside main main main"
-  "aside main main main"
-  "aside main main main"
-  "aside Footer Footer Footer";
+  "main main main main"
+  "main main main main"
+  "main main main main"
+  "Footer Footer Footer Footer";
   height: 100vh;
 }
 .Header {
@@ -15,9 +15,6 @@
 }
 .Footer {
   grid-area: Footer;
-}
-.aside {
-  grid-area: aside;
 }
 .main {
   grid-area: main;
