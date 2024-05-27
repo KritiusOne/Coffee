@@ -1,0 +1,4 @@
+export const CARD_TYPE = {
+  PRODUCT_GRID: "PRODUCT_GRID",
+  PRODUCT_CART: "PRODUCT_CART"
+}
