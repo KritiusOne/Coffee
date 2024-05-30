@@ -15,7 +15,8 @@ export const Home: React.FC = () => {
   useEffect(()=>{
     const getAllProducts = async()=>{
       try{
-        const response = await fetch("https://coffee-shop-pablosanchezb-a5f28cd7.koyeb.app/menu")
+        const API_ALL_PRODUCTS = import.meta.env.VITE_URL_API_ALL_PRODUCTS
+        const response = await fetch(API_ALL_PRODUCTS)
         if(response.ok){
           const AllProducts:Menu[] = await response.json()
           ProductStorage.setAllProducts(AllProducts)

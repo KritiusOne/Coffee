@@ -23,7 +23,8 @@ export const ProductDetails: React.FC = ()=>{
         setActualProductMenu(ActualProduct)
       }else{
         try{
-          const response = await fetch(`https://coffee-shop-pablosanchezb-a5f28cd7.koyeb.app/menu/${UrlParams.get("id")}`)
+          const API_PRODUCT = import.meta.env.VITE_URL_API_ALL_PRODUCTS
+          const response = await fetch(`${API_PRODUCT}/${UrlParams.get("id")}`)
           if(response.ok){
             const newProduct:Menu = await response.json()
             ProductStorage.setAllProducts([newProduct])
