@@ -19,16 +19,21 @@ export const LogIn: React.FC = () => {
   }
   const handleClickButton = ()=>{
     const URL:string = import.meta.env.VITE_URL_API_LOGIN
-    const formData = new FormData()
-    formData.append("username", email)
-    formData.append("password", password)
     fetch(URL, {
       method: "POST",
-      body: formData
+      body: JSON.stringify({email: email, password: password}),
+      headers: {'Content-Type': 'application/json'}
     })
-    .then(res => res.json())
+    .then(res => {
+      if(res.ok){
+        return res.json()
+      }else{
+        console.log(res)
+      }
+    })
     .then(response => {
       const newResponse = response as LoginResponse
+      console.log(newResponse)
       const parts = newResponse.access_token.split(".")
       const decodePayload = atob(parts[1])
       const parsedPayload: User = JSON.parse(decodePayload)
