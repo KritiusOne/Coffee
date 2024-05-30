@@ -7,6 +7,7 @@ import { CARD_TYPE } from "../../helpers/CardProductType"
 import { IconX } from '@tabler/icons-react';
 import { useNavigate } from "react-router"
 import { PUBLIC_ROUTES } from "../../routes/TypesRoutes"
+import { useUserStorage } from "../../zustand/UserStorage"
 
 interface Props extends HTMLAttributes<HTMLElement>{
   Product: ProductMock
@@ -15,10 +16,15 @@ interface Props extends HTMLAttributes<HTMLElement>{
 export const CardProduct: React.FC<Props> = ({Product, typeCard,...props})=>{
   const AddCartProduct = useCartStorage(Cart => Cart.setCartProduct)
   const DeleteCartProduct = useCartStorage(Cart=> Cart.setDeleteProduct)
-  const navegate = useNavigate();
+  const navegate = useNavigate()
+  const token = useUserStorage(Storage => Storage.accesToken)
   const handleClickButton = (e: React.MouseEvent)=>{
-    AddCartProduct(Product)
     e.stopPropagation()
+    if(token.length == 0){
+      navegate(PUBLIC_ROUTES.LOGIN)
+    }else{
+      AddCartProduct(Product)
+    }
   }
   const handleClickIconX = (e: React.MouseEvent)=>{
     DeleteCartProduct(Product)
