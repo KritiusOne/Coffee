@@ -10,7 +10,7 @@ export const CartBuy:React.FC = ()=>{
       <div className="flex flex-col w-full justify-between h-full">
         <main className="w-3/5 mx-auto mt-8 flex flex-col gap-2">
           {
-            Storage.CartProducts && Storage.CartProducts.map(product => <ProductCart key={product.Product.id} product={product}  />)
+            Storage.CartProducts && Storage.CartProducts.map(product => <ProductCart key={product.Product.Menu.id_menu} product={product}  />)
           }
         </main>
         <footer className="w-3/5 mx-auto my-8 flex flex-col justify-center items-end gap-3 font-mono font-semibold capitalize">
