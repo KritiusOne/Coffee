@@ -45,7 +45,7 @@ export const CardProduct: React.FC<Props> = ({Product, typeCard,...props})=>{
       </header>
       <main className="flex flex-col justify-center items-center py-1 gap-1">
         <h3 className="font-semibold text-dark text-l"> {Product.Menu.nombre_producto} </h3>
-        <Stars numStars={Product.average_rating == null ? 1 : Product.average_rating} typeCard={CARD_TYPE.PRODUCT_CART} />
+        <Stars numStars={Product.average_rating == null ? undefined : Product.average_rating} typeCard={CARD_TYPE.PRODUCT_CART} />
         <strong className={`text-dark ${CARD_TYPE.PRODUCT_GRID == typeCard ? "text-xl" : "text-l"}`}> ${Product.Menu.precio} </strong>
       </main>
       {
