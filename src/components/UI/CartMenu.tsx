@@ -1,12 +1,17 @@
+import { useNavigate } from "react-router"
 import { CARD_TYPE } from "../../helpers/CardProductType"
 import { useCartStorage } from "../../zustand/CartStorage"
 import { useThemeStorage } from "../../zustand/Theme"
+import { useUserStorage } from "../../zustand/UserStorage"
 import { Button } from "./Button"
 import { CardProduct } from "./CardProduct"
+import { PRIVATE_CLIENT_ROUTES, PUBLIC_ROUTES } from "../../routes/TypesRoutes"
 
 export const CartMenu:React.FC = ()=>{
   const Theme = useThemeStorage()
   const AllProductCart = useCartStorage()
+  const token = useUserStorage(Storage => Storage.accesToken)
+  const navegate = useNavigate()
   const handleClickOverly = ()=>{
     Theme.setViewCart(Theme.viewCart)
   }
@@ -14,7 +19,11 @@ export const CartMenu:React.FC = ()=>{
     e.stopPropagation()
   }
   const handleClickButtonPedido = ()=>{
-    console.log("soy el btn del pedido")
+    if(token.length == 0){
+      navegate(PUBLIC_ROUTES.LOGIN)
+    }else{
+      navegate(PRIVATE_CLIENT_ROUTES.CART_BUY)
+    }
   }
   return (
     <div className='w-screen h-screen fixed top-0 right-0 flex items-center justify-center md:justify-end bg-black/[0.5]' onClick={handleClickOverly}>
