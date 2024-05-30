@@ -20,6 +20,26 @@ export interface ProductMock {
 }
 
 interface CartProductsInfo {
-  Product: ProductMock
+  Product: Menu
   stockSolicitado: number
+}
+export interface Menu {
+  Menu:           Product;
+  average_rating: number | null;
+}
+export interface Product {
+  id_menu:         number;
+  nombre_producto: string;
+  categories:      CategoryElement[];
+  precio:          number;
+  descripcion:     string;
+  tamaño:          string;
+  img:             string
+}
+export interface CategoryElement {
+  category: ContentCategory;
+}
+export interface ContentCategory {
+  id_category:   number;
+  category_name: string;
 }
