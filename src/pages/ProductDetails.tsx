@@ -1,26 +1,44 @@
 import { useLocation } from "react-router"
 import { Layout } from "../components/UI/Layout"
 import { useEffect, useState } from "react"
-import ResponseMock from "../helpers/mocks/products.json"
-import { ProductMock } from "../types/ProductType"
+import { Menu } from "../types/ProductType"
 import { Stars } from "../components/UI/Stars"
 import { CARD_TYPE } from "../helpers/CardProductType"
 import { Button } from "../components/UI/Button"
 import { useCartStorage } from "../zustand/CartStorage"
+import { useProductsStorage } from "../zustand/ProductsStorage"
 
 export const ProductDetails: React.FC = ()=>{
   const location = useLocation()
   const UrlParams = new URLSearchParams(location.search)
-  const [actualProductMock, setActualProductMock] = useState<ProductMock>(ResponseMock.products[0])
+  const [actualProductMenu, setActualProductMenu] = useState<Menu>()
   const setProductCart = useCartStorage(Storage => Storage.setCartProduct)
+  const ProductStorage = useProductsStorage()
   const [actualInfo, setActualInfo] = useState(false)
   useEffect(()=>{
-    const [actualProductMock] = ResponseMock.products.filter(product => product.id.toString() == UrlParams.get("id"))
-    setActualProductMock(actualProductMock)
+    const getAllProducts = async()=>{
+      const idProductPage = UrlParams.get("id") == null ? "-1" : `${UrlParams.get("id")}`
+      const [ActualProduct] = ProductStorage.AllProducts.filter(Product => Product.Menu.id_menu == parseInt(idProductPage))
+      if(ActualProduct){
+        setActualProductMenu(ActualProduct)
+      }else{
+        try{
+          const response = await fetch("https://coffee-shop-pablosanchezb-a5f28cd7.koyeb.app/menu")
+          if(response.ok){
+            const AllProducts:Menu[] = await response.json()
+            ProductStorage.setAllProducts(AllProducts)
+            const [newProduct] = AllProducts.filter(Product => Product.Menu.id_menu == parseInt(idProductPage))
+            setActualProductMenu((newProduct as Menu))
+          }
+        }catch(e){
+          console.log(e)
+        }
+      }
+    }
+    getAllProducts()
   },[UrlParams.get("id")])
-  console.log(actualProductMock)
   const handleClickButton = ()=>{
-    setProductCart(actualProductMock)
+    setProductCart((actualProductMenu as Menu))
   }
   const handleClickDescription = ()=> {
     setActualInfo(false)
@@ -33,18 +51,18 @@ export const ProductDetails: React.FC = ()=>{
       <div className="mx-auto mt-8 w-3/5 font-mono">
         <header className="w-full">
           <section className="w-full">
-            <img className="object-cover w-full h-full" src={actualProductMock?.thumbnail} alt={`miniatura del producto${actualProductMock.title}`} />
+            <img className="object-cover w-full h-full" src={actualProductMenu?.Menu.img} alt={`miniatura del producto${actualProductMenu?.Menu.nombre_producto}`} />
           </section>
         </header>
         <main className="flex flex-col justify-start gap-1 mt-4">
-          <h2 className="text-dark text-xl"> {actualProductMock?.title} </h2>
-          <Stars typeCard={CARD_TYPE.PRODUCT_CART} numStars={actualProductMock.rating} />
+          <h2 className="text-dark text-xl"> {actualProductMenu?.Menu.nombre_producto} </h2>
+          <Stars typeCard={CARD_TYPE.PRODUCT_CART} numStars={(actualProductMenu?.average_rating as number)} />
           <p className="text-l">
             {
-              actualProductMock?.description
+              actualProductMenu?.Menu.descripcion
             }
           </p>
-          <strong className="text-dark text-xl"> ${actualProductMock?.price} </strong>
+          <strong className="text-dark text-xl"> ${actualProductMenu?.Menu?.precio} </strong>
           <Button onClick={handleClickButton} className="max-w-48 text-sm"> Agregar al Carrito </Button>
         </main>
         <footer className="flex flex-col mt-4">
@@ -55,9 +73,9 @@ export const ProductDetails: React.FC = ()=>{
           <main className="flex justify-center items-center text-center text-md min-h-52">
             {
               !actualInfo ? <p>
-                { actualProductMock.description }
+                { actualProductMenu?.Menu.descripcion }
               </p>
-              : <Stars numStars={actualProductMock.rating} typeCard={CARD_TYPE.PRODUCT_GRID} />
+              : <Stars numStars={(actualProductMenu?.average_rating as number)} typeCard={CARD_TYPE.PRODUCT_GRID} />
             }
           </main>
         </footer>
