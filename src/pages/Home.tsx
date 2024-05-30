@@ -20,7 +20,7 @@ export const Home: React.FC = () => {
         if(response.ok){
           const AllProducts:Menu[] = await response.json()
           ProductStorage.setAllProducts(AllProducts)
-          setProductsHome(AllProducts.length >= 6 ? AllProducts.slice(0, 5) : AllProducts)
+          setProductsHome(AllProducts.length >= 6 ? AllProducts.slice(0, 6) : AllProducts)
         }
       }catch(e){
         console.log(e)
