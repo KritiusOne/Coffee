@@ -23,12 +23,11 @@ export const ProductDetails: React.FC = ()=>{
         setActualProductMenu(ActualProduct)
       }else{
         try{
-          const response = await fetch("https://coffee-shop-pablosanchezb-a5f28cd7.koyeb.app/menu")
+          const response = await fetch(`https://coffee-shop-pablosanchezb-a5f28cd7.koyeb.app/menu/${UrlParams.get("id")}`)
           if(response.ok){
-            const AllProducts:Menu[] = await response.json()
-            ProductStorage.setAllProducts(AllProducts)
-            const [newProduct] = AllProducts.filter(Product => Product.Menu.id_menu == parseInt(idProductPage))
-            setActualProductMenu((newProduct as Menu))
+            const newProduct:Menu = await response.json()
+            ProductStorage.setAllProducts([newProduct])
+            setActualProductMenu(newProduct)
           }
         }catch(e){
           console.log(e)
@@ -57,11 +56,6 @@ export const ProductDetails: React.FC = ()=>{
         <main className="flex flex-col justify-start gap-1 mt-4">
           <h2 className="text-dark text-xl"> {actualProductMenu?.Menu.nombre_producto} </h2>
           <Stars typeCard={CARD_TYPE.PRODUCT_CART} numStars={(actualProductMenu?.average_rating as number)} />
-          <p className="text-l">
-            {
-              actualProductMenu?.Menu.descripcion
-            }
-          </p>
           <strong className="text-dark text-xl"> ${actualProductMenu?.Menu?.precio} </strong>
           <Button onClick={handleClickButton} className="max-w-48 text-sm"> Agregar al Carrito </Button>
         </main>
