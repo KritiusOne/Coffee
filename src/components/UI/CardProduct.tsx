@@ -17,7 +17,7 @@ export const CardProduct: React.FC<Props> = ({Product, typeCard,...props})=>{
   const AddCartProduct = useCartStorage(Cart => Cart.setCartProduct)
   const DeleteCartProduct = useCartStorage(Cart=> Cart.setDeleteProduct)
   const navegate = useNavigate()
-  const token = useUserStorage(Storage => Storage.accesToken)
+  const token = useUserStorage(Storage => Storage.typeToken)
   const handleClickButton = (e: React.MouseEvent)=>{
     e.stopPropagation()
     if(token.length == 0){

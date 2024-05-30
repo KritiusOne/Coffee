@@ -10,7 +10,7 @@ import { PRIVATE_CLIENT_ROUTES, PUBLIC_ROUTES } from "../../routes/TypesRoutes"
 export const CartMenu:React.FC = ()=>{
   const Theme = useThemeStorage()
   const AllProductCart = useCartStorage()
-  const token = useUserStorage(Storage => Storage.accesToken)
+  const token = useUserStorage(Storage => Storage.typeToken)
   const navegate = useNavigate()
   const handleClickOverly = ()=>{
     Theme.setViewCart(Theme.viewCart)
