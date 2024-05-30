@@ -31,7 +31,7 @@ export const CartMenu:React.FC = ()=>{
         <header className="bg-action px-6 h-10 text-center flex justify-center items-center"> <span className="font-semibold text-xl">Carrito de compras</span></header>
         <main className="flex flex-col items-center md:justify-start h-full py-2 gap-2 overflow-auto">
           {
-            AllProductCart.CartProducts.map(ProductCart=> <CardProduct Product={ProductCart.Product} typeCard={CARD_TYPE.PRODUCT_CART} key={ProductCart.Product.id} />)
+            AllProductCart.CartProducts.map(ProductCart=> <CardProduct Product={ProductCart.Product} typeCard={CARD_TYPE.PRODUCT_CART} key={ProductCart.Product.Menu.id_menu} />)
           }
         </main>
         <footer className="flex flex-col justify-center items-center mt-2">
