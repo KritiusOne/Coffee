@@ -1,10 +1,57 @@
+import { useState } from "react"
 import { Button } from "../components/UI/Button"
 import { Layout } from "../components/UI/Layout"
 import { ProductCart } from "../components/UI/ProductCart"
+import { TOKEN } from "../helpers/LocalStorageItems"
+import { CreateOrder, Item } from "../types/OrdersType"
 import { useCartStorage } from "../zustand/CartStorage"
+import { useUserStorage } from "../zustand/UserStorage"
+import { Modal } from "../components/Modal"
+import { useNavigate } from "react-router"
+import { PUBLIC_ROUTES } from "../routes/TypesRoutes"
 
 export const CartBuy:React.FC = ()=>{
   const Storage = useCartStorage()
+  const UserStorage = useUserStorage()
+  const [modal, setModal] = useState(false)
+  const navegate = useNavigate()
+
+  const handleClickPostOrder = ()=>{
+    const URL_POST = import.meta.env.VITE_URL_API_POST_ORDER
+    const actualToken = localStorage.getItem(TOKEN)
+    const actualHeaders = {
+      Authorization: `${UserStorage.typeToken} ${actualToken}`,
+      "Content-Type": 'application/json'
+    }
+    const ItemsOrder:Item[] = []
+    for (const iterator of Storage.CartProducts) {
+      ItemsOrder.push({
+        id_menu: iterator.Product.Menu.id_menu,
+        numbers: iterator.stockSolicitado,
+        price: iterator.Product.Menu.precio
+      })
+    }
+    const bodyOrder:CreateOrder = {
+      items: ItemsOrder,
+      total_price: Storage.parcialPrice
+    }
+    console.log(bodyOrder)
+    fetch(URL_POST, {
+      method: "POST",
+      headers: actualHeaders,
+      body: JSON.stringify(bodyOrder)
+    })
+    .then(res => res.json())
+    .then(response => {
+      setModal(true)
+      console.log(response)
+      setTimeout(()=>{
+        navegate(PUBLIC_ROUTES.HOME)
+        Storage.deleteAllProducts()
+      }, 3000)
+    })
+    .catch(e => console.log(e))
+  }
   return (
     <Layout>
       <div className="flex flex-col w-full justify-between h-full">
@@ -18,8 +65,14 @@ export const CartBuy:React.FC = ()=>{
             <h1>Total a pagar: </h1>
             <span> ${Storage.parcialPrice} </span>
           </div>
-          <Button> Realizar Compra </Button>
+          <Button onClick={handleClickPostOrder}> Realizar Compra </Button>
         </footer>
+        {
+          modal && <Modal>
+            <h1 className="text-3xl text-dark font-bold font-mono">Felicidades!</h1>
+            <p className="text-md font-light">Ya realizaste tu pedido, te redirigiremos en breve</p>
+          </Modal>
+        }
       </div>
     </Layout>
   )

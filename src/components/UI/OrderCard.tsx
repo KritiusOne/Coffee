@@ -17,7 +17,7 @@ export const OrderCard: React.FC<Props> = ({  idUser, fechaPedido, totalPrice, c
   const UserWithPedidos = useOrderStorage(Storage => Storage.AllUsers)
   useEffect(()=>{
     const [userInfo] = UserWithPedidos.filter(user => user.id_usuario == idUser)
-    setNombre(userInfo.first_name + " " + userInfo.last_name)
+    setNombre(codeFollowing)
   }, [])
   const handleClickCard = ()=>{
     const UrlParams = new URLSearchParams();

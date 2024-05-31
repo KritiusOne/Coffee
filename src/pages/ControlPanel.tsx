@@ -75,7 +75,7 @@ export const ControlPanel: React.FC = () => {
           <Button id="Today" onClick={handleClickChangeTypeInfo}>Mas recientes</Button>
           <Button id="Historial" onClick={handleClickChangeTypeInfo}>Historial</Button>
         </div>
-        <div>
+        <div className="flex flex-col justify-center items-center gap-4">
           {
             load ? "Loading..." : OrderStorage.AllOrders.length > 0 && OrderStorage.AllOrders.map(order => {
               if(typeInfo == "Today"){

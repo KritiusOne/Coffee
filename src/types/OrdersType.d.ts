@@ -29,3 +29,13 @@ export interface Seller {
   price:       number;
   fecha_venta: Date;
 }
+export interface CreateOrder {
+  total_price: number;
+  items:       Item[];
+}
+
+export interface Item {
+  id_menu: number;
+  numbers: number;
+  price:   number;
+}

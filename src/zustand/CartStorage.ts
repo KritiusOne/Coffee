@@ -7,6 +7,7 @@ interface CartType {
   setCartProduct: (ProductToAdd: Menu, quantity?: number) => void
   setDeleteProduct: (ProductToDelete: Menu)=>void
   setCantidad: (id:number,quantity:number)=>void
+  deleteAllProducts: ()=>void
 }
 export const useCartStorage = create<CartType>((set, get) => ({
   CartProducts: [],
@@ -43,5 +44,8 @@ export const useCartStorage = create<CartType>((set, get) => ({
     })
     const newParcialPrice = newCart.reduce((acumulador, currentValue)=> acumulador+ currentValue.Product.Menu.precio * currentValue.stockSolicitado, 0)
     set({CartProducts: [...newCart], parcialPrice: newParcialPrice})
+  },
+  deleteAllProducts: ()=>{
+    set({CartProducts: [], parcialPrice: 0})
   }
 }))
