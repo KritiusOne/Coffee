@@ -1,15 +1,17 @@
 import { IconUser } from '@tabler/icons-react'
 import { useThemeStorage } from "../../zustand/Theme"
 import { Link, useNavigate } from 'react-router-dom'
-import { PRIVATE_CLIENT_ROUTES, PUBLIC_ROUTES } from '../../routes/TypesRoutes'
+import { ADMIN_ROUTES, PRIVATE_CLIENT_ROUTES, PUBLIC_ROUTES } from '../../routes/TypesRoutes'
 import { IconBuildingStore } from '@tabler/icons-react'
 import { useUserStorage } from '../../zustand/UserStorage'
+import { IconSearch } from '@tabler/icons-react';
 
 export const MenuAside: React.FC = ()=>{
   const ThemeConfig = useThemeStorage()
   const UserInfo = useUserStorage(Storage => Storage.userInfo)
   const logOut = useUserStorage(Storage => Storage.logOut)
   const navegate = useNavigate()
+  console.log(UserInfo)
   const handleClickOverlay = () =>{
     ThemeConfig.setMenuAside(true)
     console.log(ThemeConfig.visibleMenuAside)
@@ -40,6 +42,9 @@ export const MenuAside: React.FC = ()=>{
           <Link className='flex flex-row w-full justify-center md:justify-start gap-2' to={PUBLIC_ROUTES.PRODUCTS} > 
             <IconBuildingStore className='text-action' /> Ver Productos 
           </Link>
+          {
+            UserInfo?.role_name == "administrador" && <Link to={ADMIN_ROUTES.CONTROL_PANEL} className='flex flex-row w-full justify-center md:justify-start gap-2' > <IconSearch className='text-action' /> Ver panel de control </Link>
+          }
         </main>
       </aside>
     </section>

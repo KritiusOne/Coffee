@@ -9,3 +9,6 @@ export const PRIVATE_CLIENT_ROUTES = {
   CART_BUY: "/cart/buy",
   RESERVATION: "/reservation"
 }
+export const ADMIN_ROUTES = {
+  CONTROL_PANEL: "/panel"
+}

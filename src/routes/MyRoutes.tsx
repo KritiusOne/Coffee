@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router"
-import { PRIVATE_CLIENT_ROUTES, PUBLIC_ROUTES } from "./TypesRoutes"
+import { ADMIN_ROUTES, PRIVATE_CLIENT_ROUTES, PUBLIC_ROUTES } from "./TypesRoutes"
 import { Home } from "../pages/Home"
 import { LogIn } from "../pages/LogIn"
 import { SignIn } from "../pages/SignIn"
@@ -9,6 +9,8 @@ import { AuthGuard } from "../guards/Auth.guard"
 import { CartBuy } from "../pages/CartBuy"
 import { AntiAuthGuard } from "../guards/AntiAuth.guard"
 import { Reservation } from "../pages/Reservation"
+import { AuthRoleGuard } from "../guards/Auth.RoleGuard"
+import { ControlPanel } from "../pages/ControlPanel"
 
 export const MyRoutes: React.FC = ()=>{
   return (
@@ -27,6 +29,9 @@ export const MyRoutes: React.FC = ()=>{
       </Route>
       <Route element={<AuthGuard/>}>
         <Route path={PRIVATE_CLIENT_ROUTES.RESERVATION} element={<Reservation />} />
+      </Route>
+      <Route element={<AuthRoleGuard/>}>
+        <Route path={ADMIN_ROUTES.CONTROL_PANEL} element={<ControlPanel />} />
       </Route>
     </Routes>
   )
