@@ -7,6 +7,7 @@ import { useUserStorage } from "../zustand/UserStorage"
 import { LoginResponse, User } from "../types/UserTypes"
 import { validatorEmail } from "../helpers/Validations"
 import { TypeMsg } from "../types/UtilsTypes"
+import { TOKEN, TYPE_TOKEN, USER_INFO } from "../helpers/LocalStorageItems"
 
 export const LogIn: React.FC = () => {
   const [email, setEmail] = useState("")
@@ -62,7 +63,9 @@ export const LogIn: React.FC = () => {
         const decodePayload = atob(parts[1])
         const parsedPayload: User = JSON.parse(decodePayload)
         UserStorage.requestLogin(parsedPayload, newResponse.token_type)
-        localStorage.setItem("UserInfo", JSON.stringify(parsedPayload))
+        localStorage.setItem(USER_INFO, JSON.stringify(parsedPayload))
+        localStorage.setItem(TOKEN, newResponse.access_token)
+        localStorage.setItem(TYPE_TOKEN, newResponse.token_type)
         navegate(PUBLIC_ROUTES.HOME)
       })
       .catch(e =>{

@@ -8,6 +8,7 @@ import { useUserStorage } from '../../zustand/UserStorage'
 export const MenuAside: React.FC = ()=>{
   const ThemeConfig = useThemeStorage()
   const UserInfo = useUserStorage(Storage => Storage.userInfo)
+  const logOut = useUserStorage(Storage => Storage.logOut)
   const navegate = useNavigate()
   const handleClickOverlay = () =>{
     ThemeConfig.setMenuAside(true)
@@ -20,7 +21,8 @@ export const MenuAside: React.FC = ()=>{
     if(UserInfo == undefined){
       navegate(PUBLIC_ROUTES.SIGNIN)
     }else{
-      console.log("LOGOUT")
+      logOut()
+      navegate(PUBLIC_ROUTES.LOGIN)
     }
   }
   return (
