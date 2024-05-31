@@ -11,6 +11,7 @@ import { AntiAuthGuard } from "../guards/AntiAuth.guard"
 import { Reservation } from "../pages/Reservation"
 import { AuthRoleGuard } from "../guards/Auth.RoleGuard"
 import { ControlPanel } from "../pages/ControlPanel"
+import { DetailsPedido } from "../pages/DetailsPedido"
 
 export const MyRoutes: React.FC = ()=>{
   return (
@@ -32,6 +33,9 @@ export const MyRoutes: React.FC = ()=>{
       </Route>
       <Route element={<AuthRoleGuard/>}>
         <Route path={ADMIN_ROUTES.CONTROL_PANEL} element={<ControlPanel />} />
+      </Route>
+      <Route element={<AuthRoleGuard/>}>
+        <Route path={ADMIN_ROUTES.DETAILS_PEDIDO} element={<DetailsPedido />} />
       </Route>
     </Routes>
   )

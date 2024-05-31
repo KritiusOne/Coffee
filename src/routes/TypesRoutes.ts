@@ -10,5 +10,6 @@ export const PRIVATE_CLIENT_ROUTES = {
   RESERVATION: "/reservation"
 }
 export const ADMIN_ROUTES = {
-  CONTROL_PANEL: "/panel"
+  CONTROL_PANEL: "/panel",
+  DETAILS_PEDIDO: "/panel/pedido/:id"
 }

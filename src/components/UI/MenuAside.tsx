@@ -11,7 +11,6 @@ export const MenuAside: React.FC = ()=>{
   const UserInfo = useUserStorage(Storage => Storage.userInfo)
   const logOut = useUserStorage(Storage => Storage.logOut)
   const navegate = useNavigate()
-  console.log(UserInfo)
   const handleClickOverlay = () =>{
     ThemeConfig.setMenuAside(true)
     console.log(ThemeConfig.visibleMenuAside)
