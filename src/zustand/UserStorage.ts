@@ -29,8 +29,6 @@ export const useUserStorage = create<IUserStorage>((set, get)=>({
         const infoUser:User = JSON.parse(oldInfoUser)
         const fechaExpiracion = new Date((infoUser.exp as number) * 1000)
         const fechaActual = new Date()
-        console.log(fechaActual.toLocaleString())
-        console.log(fechaExpiracion.toLocaleString())
         if(fechaActual < fechaExpiracion){
           set({userInfo: infoUser, typeToken: "bearer"})
         }
