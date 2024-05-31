@@ -18,3 +18,19 @@ export interface User {
   exp?:        number;
 }
 
+export interface UserByGetAll {
+  id_usuario: number;
+  role:       Role;
+  first_name: string;
+  last_name:  string;
+  username:   string;
+  phone:      null;
+  email:      string;
+  address:    null;
+}
+
+export interface Role {
+  id_role:   number;
+  role_name: string;
+}
+
