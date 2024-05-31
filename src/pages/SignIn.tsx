@@ -5,8 +5,7 @@ import { PUBLIC_ROUTES } from "../routes/TypesRoutes"
 import { ChangeEvent, useState } from "react"
 import { validationName, validatorEmail } from "../helpers/Validations"
 import { User } from "../types/UserTypes"
-
-type TypeMsg = "Error" | "Succes"
+import { TypeMsg } from "../types/UtilsTypes"
 
 export const SignIn: React.FC = () => {
   const [register, setRegister] = useState({
@@ -23,6 +22,7 @@ export const SignIn: React.FC = () => {
     if(validationName.test(e.target.value.trim())){
       setRegister( {...register, first_name: e.target.value.trim()})
       setMostrarMsg(false)
+      setTypeMsg("Succes")
     }else{
       setMostrarMsg(true)
       setMsg("El Nombre contiene caracteres invalidos")
@@ -32,6 +32,7 @@ export const SignIn: React.FC = () => {
     if(validationName.test(e.target.value.trim())){
       setRegister( {...register, last_name: e.target.value.trim()})
       setMostrarMsg(false)
+      setTypeMsg("Succes")
     }else{
       setMostrarMsg(true)
       setTypeMsg("Error")
@@ -42,6 +43,7 @@ export const SignIn: React.FC = () => {
     if(validationName.test(e.target.value.trim())){
       setRegister( {...register, username: e.target.value.trim()})
       setMostrarMsg(false)
+      setTypeMsg("Succes")
     }else{
       setMostrarMsg(true)
       setTypeMsg("Error")
@@ -52,6 +54,7 @@ export const SignIn: React.FC = () => {
     if(validatorEmail.test(e.target.value.trim())){
       setRegister( {...register, email: e.target.value.trim()})
       setMostrarMsg(false)
+      setTypeMsg("Succes")
     }else{
       setMostrarMsg(true)
       setTypeMsg("Error")
@@ -63,24 +66,30 @@ export const SignIn: React.FC = () => {
   }
   const handleClickButton = () =>{
     const URL = import.meta.env.VITE_URL_API_SIGNIN
-    fetch(URL, {
-      method: "POST",
-      body: JSON.stringify(register),
-      headers: {'Content-Type': 'application/json'}
-    })
-    .then(res => res.json())
-    .then(response =>{
-      const responseUser = response  as User
+    if(typeMsg != "Succes"){
       setMostrarMsg(true)
-      setMsg(`Haz sido registrado correctamente, ${responseUser.first_name}, dirigete a la pagina de iniciar sesion para poder logearte`)
-      setTypeMsg("Succes")
-    })
-    .catch(e =>{
-      setMostrarMsg(true)
-      setMsg("Error en la solicitud, intenta otra vez")
       setTypeMsg("Error")
-      console.log(e)
-    })
+      setMsg("Alguno de los campos es invalido")
+    }{
+      fetch(URL, {
+        method: "POST",
+        body: JSON.stringify(register),
+        headers: {'Content-Type': 'application/json'}
+      })
+      .then(res => res.json())
+      .then(response =>{
+        const responseUser = response  as User
+        setMostrarMsg(true)
+        setMsg(`Haz sido registrado correctamente, ${responseUser.first_name}, dirigete a la pagina de iniciar sesion para poder logearte`)
+        setTypeMsg("Succes")
+      })
+      .catch(e =>{
+        setMostrarMsg(true)
+        setMsg("Error en la solicitud, intenta otra vez")
+        setTypeMsg("Error")
+        console.log(e)
+      })
+    }
   }
   return (
     <Layout>

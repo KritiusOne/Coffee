@@ -1,0 +1,1 @@
+export type TypeMsg = "Error" | "Succes"
