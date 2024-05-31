@@ -25,6 +25,14 @@ export const CartMenu:React.FC = ()=>{
       navegate(PRIVATE_CLIENT_ROUTES.CART_BUY)
     }
   }
+  const handleClickButtonReservation = ()=>{
+    if(token.length == 0){
+      navegate(PUBLIC_ROUTES.LOGIN)
+    }else{
+      navegate(PRIVATE_CLIENT_ROUTES.RESERVATION)
+    }
+  }
+  
   return (
     <div className='w-screen h-screen fixed top-0 right-0 flex items-center justify-center md:justify-end bg-black/[0.5]' onClick={handleClickOverly}>
       <aside className='flex flex-col justify-between h-4/5 w-4/5 md:h-full md:w-3/12 bg-white text-dark z-[1000] pb-2' onClick={handleClickCartMenu}>
@@ -37,7 +45,7 @@ export const CartMenu:React.FC = ()=>{
         <footer className="flex flex-col justify-center items-center mt-2">
           <div className="flex flex-row justify-center items-center gap-2">
             <Button onClick={handleClickButtonPedido}> Realizar pedido </Button>
-            <Button> Ir a la reservación </Button>
+            <Button onClick={handleClickButtonReservation}> Ir a la reservación </Button>
           </div>
           <span> Total: <strong>${AllProductCart.parcialPrice}</strong> </span>
         </footer>

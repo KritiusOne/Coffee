@@ -24,7 +24,7 @@ export const ProductCart: React.FC<Props> = ({ product }) => {
     <article className="flex flex-col justify-center items-start shadow-[0_3px_10px_rgb(0,0,0,0.2)] font-mono">
       <div className="flex flex-row gap-3">
         <div className="w-2/5 h-full">
-          <img className="w-full h-full" src={product.Product.Menu.id_menu.toString()} alt={`Imagen de ${product.Product.Menu.nombre_producto}`} />
+          <img className="w-full h-full" src={product.Product.Menu.img} alt={`Imagen de ${product.Product.Menu.nombre_producto}`} />
         </div>
         <div className="flex flex-col gap-4 p-2">
           <h2 className="text-xl font-semibold text-dark text-pretty">
