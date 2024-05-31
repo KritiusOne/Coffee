@@ -7,6 +7,8 @@ import { CARD_TYPE } from "../helpers/CardProductType"
 import { Button } from "../components/UI/Button"
 import { useCartStorage } from "../zustand/CartStorage"
 import { useProductsStorage } from "../zustand/ProductsStorage"
+import { Review } from "../types/ReviewsTypes"
+import { Comment } from "../components/UI/Comment"
 
 export const ProductDetails: React.FC = ()=>{
   const location = useLocation()
@@ -15,6 +17,7 @@ export const ProductDetails: React.FC = ()=>{
   const setProductCart = useCartStorage(Storage => Storage.setCartProduct)
   const ProductStorage = useProductsStorage()
   const [actualInfo, setActualInfo] = useState(false)
+  const [comentarios, setComentarios] = useState<Review[]>([])
   useEffect(()=>{
     const getAllProducts = async()=>{
       const idProductPage = UrlParams.get("id") == null ? "-1" : `${UrlParams.get("id")}`
@@ -37,6 +40,21 @@ export const ProductDetails: React.FC = ()=>{
     }
     getAllProducts()
   },[UrlParams.get("id")])
+  useEffect(()=>{
+    if(actualInfo){
+      try {
+        const API_URL_REVIEWS = `${import.meta.env.VITE_URL_API_REVIWS_OF_PRODUCT}/${UrlParams.get("id")}`
+        fetch(API_URL_REVIEWS)
+        .then(res => res.json())
+        .then(response => {
+          const responseType = response as Review[]
+          setComentarios(responseType)
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }, [actualInfo])
   const handleClickButton = ()=>{
     setProductCart((actualProductMenu as Menu))
   }
@@ -70,7 +88,7 @@ export const ProductDetails: React.FC = ()=>{
               !actualInfo ? <p>
                 { actualProductMenu?.Menu.descripcion }
               </p>
-              : <Stars numStars={(actualProductMenu?.average_rating as number)} typeCard={CARD_TYPE.PRODUCT_GRID} />
+              : comentarios && <Comment comments={comentarios} promStars={(actualProductMenu?.average_rating) as number} />
             }
           </main>
         </footer>
