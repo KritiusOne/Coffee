@@ -8,6 +8,7 @@ interface CartType {
   setDeleteProduct: (ProductToDelete: Menu)=>void
   setCantidad: (id:number,quantity:number)=>void
   deleteAllProducts: ()=>void
+  getProduct: (id:number)=>CartProductsInfo | void
 }
 export const useCartStorage = create<CartType>((set, get) => ({
   CartProducts: [],
@@ -47,5 +48,10 @@ export const useCartStorage = create<CartType>((set, get) => ({
   },
   deleteAllProducts: ()=>{
     set({CartProducts: [], parcialPrice: 0})
-  }
+  },
+  getProduct: (id)=> {
+    const actualCart = get()
+    const Product = actualCart.CartProducts.find(product => product.Product.Menu.id_menu == id)
+    if(Product != undefined) return Product
+  },
 }))
