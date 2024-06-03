@@ -17,9 +17,9 @@ export const CantProduct: React.FC<Props> = ({idProduct}) => {
     const actualCantidad = CartStorage.CartProducts.find(product => product.Product.Menu.id_menu == idProduct)
     if(actualCantidad != undefined){
       if(e.currentTarget.textContent == "+"){
-        actualCantidad.stockSolicitado +=1
+        CartStorage.setCantidad(idProduct, actualCantidad.stockSolicitado + 1)
       }else if(e.currentTarget.textContent == "-"){
-        actualCantidad.stockSolicitado - 1 > 0 ? actualCantidad.stockSolicitado -=1 : actualCantidad.stockSolicitado
+        actualCantidad.stockSolicitado - 1 > 0 ? CartStorage.setCantidad(idProduct, actualCantidad.stockSolicitado - 1): actualCantidad.stockSolicitado
       }
       setCantidad(actualCantidad.stockSolicitado)
     }
