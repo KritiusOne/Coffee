@@ -8,10 +8,10 @@ import { ProductDetails } from "../pages/ProductDetails"
 import { AuthGuard } from "../guards/Auth.guard"
 import { CartBuy } from "../pages/CartBuy"
 import { AntiAuthGuard } from "../guards/AntiAuth.guard"
-import { Reservation } from "../pages/Reservation"
 import { AuthRoleGuard } from "../guards/Auth.RoleGuard"
 import { ControlPanel } from "../pages/ControlPanel"
 import { DetailsPedido } from "../pages/DetailsPedido"
+import { MisPedidos } from "../pages/MisPedidos"
 
 export const MyRoutes: React.FC = ()=>{
   return (
@@ -29,7 +29,7 @@ export const MyRoutes: React.FC = ()=>{
         <Route path={PRIVATE_CLIENT_ROUTES.CART_BUY} element={<CartBuy />} />
       </Route>
       <Route element={<AuthGuard/>}>
-        <Route path={PRIVATE_CLIENT_ROUTES.RESERVATION} element={<Reservation />} />
+        <Route path={PRIVATE_CLIENT_ROUTES.MY_PEDIDOS} element={<MisPedidos />} />
       </Route>
       <Route element={<AuthRoleGuard/>}>
         <Route path={ADMIN_ROUTES.CONTROL_PANEL} element={<ControlPanel />} />
