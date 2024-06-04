@@ -35,7 +35,7 @@ export const MenuAside: React.FC = () => {
           <h2 >Hola, {UserInfo == undefined ? "¿quieres iniciar sesion?" : UserInfo.first_name}</h2>
         </header>
         <main className='h-4/5 flex flex-col justify-start items-start gap-3'>
-          <Link to={UserInfo == undefined ? PUBLIC_ROUTES.LOGIN : PRIVATE_CLIENT_ROUTES.RESERVATION} className='flex flex-row w-full justify-center md:justify-start gap-2'> <IconUser className='text-action' /> {UserInfo == undefined ? "Iniciar sesion" : "Ver pedidos activos"}</Link>
+          <Link to={UserInfo == undefined ? PUBLIC_ROUTES.LOGIN : PRIVATE_CLIENT_ROUTES.MY_PEDIDOS} className='flex flex-row w-full justify-center md:justify-start gap-2'> <IconUser className='text-action' /> {UserInfo == undefined ? "Iniciar sesion" : "Ver pedidos activos"}</Link>
           <button onClick={handleClickOpcion2} className='flex flex-row w-full justify-center md:justify-start gap-2'>
             <IconUser className='text-action' /> {UserInfo == undefined ? "Registrarse" : "LogOut"}
           </button>
