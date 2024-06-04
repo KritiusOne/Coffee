@@ -5,23 +5,24 @@ import { ADMIN_ROUTES, PRIVATE_CLIENT_ROUTES, PUBLIC_ROUTES } from '../../routes
 import { IconBuildingStore } from '@tabler/icons-react'
 import { useUserStorage } from '../../zustand/UserStorage'
 import { IconSearch } from '@tabler/icons-react';
+import { Button } from './Button'
 
-export const MenuAside: React.FC = ()=>{
+export const MenuAside: React.FC = () => {
   const ThemeConfig = useThemeStorage()
   const UserInfo = useUserStorage(Storage => Storage.userInfo)
   const logOut = useUserStorage(Storage => Storage.logOut)
   const navegate = useNavigate()
-  const handleClickOverlay = () =>{
+  const handleClickOverlay = () => {
     ThemeConfig.setMenuAside(true)
     console.log(ThemeConfig.visibleMenuAside)
   }
-  const handleAsideClick = (e: React.MouseEvent)=>{
+  const handleAsideClick = (e: React.MouseEvent) => {
     e.stopPropagation()
   }
-  const handleClickOpcion2 = ()=>{
-    if(UserInfo == undefined){
+  const handleClickOpcion2 = () => {
+    if (UserInfo == undefined) {
       navegate(PUBLIC_ROUTES.SIGNIN)
-    }else{
+    } else {
       logOut()
       navegate(PUBLIC_ROUTES.LOGIN)
     }
@@ -33,18 +34,21 @@ export const MenuAside: React.FC = ()=>{
           <IconUser className='text-action' />
           <h2 >Hola, {UserInfo == undefined ? "¿quieres iniciar sesion?" : UserInfo.first_name}</h2>
         </header>
-        <main className='h-full flex flex-col justify-start items-start gap-3'>
-          <Link to={ UserInfo == undefined ? PUBLIC_ROUTES.LOGIN : PRIVATE_CLIENT_ROUTES.RESERVATION} className='flex flex-row w-full justify-center md:justify-start gap-2'> <IconUser className='text-action' /> {UserInfo == undefined ?  "Iniciar sesion" : "Hacer Reservacion"}</Link>
-          <button onClick={handleClickOpcion2} className='flex flex-row w-full justify-center md:justify-start gap-2'> 
-            <IconUser className='text-action' /> { UserInfo == undefined? "Registrarse" : "LogOut"} 
+        <main className='h-4/5 flex flex-col justify-start items-start gap-3'>
+          <Link to={UserInfo == undefined ? PUBLIC_ROUTES.LOGIN : PRIVATE_CLIENT_ROUTES.RESERVATION} className='flex flex-row w-full justify-center md:justify-start gap-2'> <IconUser className='text-action' /> {UserInfo == undefined ? "Iniciar sesion" : "Ver pedidos activos"}</Link>
+          <button onClick={handleClickOpcion2} className='flex flex-row w-full justify-center md:justify-start gap-2'>
+            <IconUser className='text-action' /> {UserInfo == undefined ? "Registrarse" : "LogOut"}
           </button>
-          <Link className='flex flex-row w-full justify-center md:justify-start gap-2' to={PUBLIC_ROUTES.PRODUCTS} > 
-            <IconBuildingStore className='text-action' /> Ver Productos 
+          <Link className='flex flex-row w-full justify-center md:justify-start gap-2' to={PUBLIC_ROUTES.PRODUCTS} >
+            <IconBuildingStore className='text-action' /> Ver Productos
           </Link>
           {
             UserInfo?.role_name == "administrador" && <Link to={ADMIN_ROUTES.CONTROL_PANEL} className='flex flex-row w-full justify-center md:justify-start gap-2' > <IconSearch className='text-action' /> Ver panel de control </Link>
           }
         </main>
+        <footer className="flex flex-row justify-center items-center gap-2">
+          <Button onClick={() => ThemeConfig.setMenuAside(ThemeConfig.visibleMenuAside)} className="bg-red-700 border-red-700"> Cerrar el carrito </Button>  
+        </footer>
       </aside>
     </section>
   )

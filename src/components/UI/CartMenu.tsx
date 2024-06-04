@@ -25,12 +25,8 @@ export const CartMenu:React.FC = ()=>{
       navegate(PRIVATE_CLIENT_ROUTES.CART_BUY)
     }
   }
-  const handleClickButtonReservation = ()=>{
-    if(token.length == 0){
-      navegate(PUBLIC_ROUTES.LOGIN)
-    }else{
-      navegate(PRIVATE_CLIENT_ROUTES.RESERVATION)
-    }
+  const handleClickButtonClose = ()=>{
+    Theme.setViewCart(Theme.viewCart)
   }
   
   return (
@@ -45,7 +41,7 @@ export const CartMenu:React.FC = ()=>{
         <footer className="flex flex-col justify-center items-center mt-2">
           <div className="flex flex-row justify-center items-center gap-2">
             <Button onClick={handleClickButtonPedido}> Realizar pedido </Button>
-            <Button onClick={handleClickButtonReservation}> Ir a la reservación </Button>
+            <Button onClick={handleClickButtonClose} className="bg-red-700 border-red-700"> Cerrar el carrito </Button>
           </div>
           <span> Total: <strong>${AllProductCart.parcialPrice}</strong> </span>
         </footer>
