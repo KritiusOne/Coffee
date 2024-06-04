@@ -5,6 +5,7 @@ import { useOrderStorage } from "../zustand/OrderStorage"
 import { useEffect, useState } from "react"
 import { Menu } from "../types/ProductType"
 import { Orders } from "../types/OrdersType"
+import { CardPedidoProduct } from "../components/UI/CardPedidoProduct"
 
 export const DetailsPedido = () => {
   const location = useLocation()
@@ -24,7 +25,9 @@ export const DetailsPedido = () => {
 
           const AllPresetProducts = AllProducts.filter(product => {
             for (const iterator of actualOrder.sellers) {
-              return product.Menu.id_menu == iterator.id_menu
+              if(iterator.id_menu == product.Menu.id_menu){
+                return product
+              }
             }
           })
           setactualProducts(AllPresetProducts)
@@ -41,35 +44,11 @@ export const DetailsPedido = () => {
     <Layout>
       <div className="flex flex-col justify-start py-8 items-center w-4/5 mx-auto">
         <h2 className="text-3xl font-bold"> Pedido #{UrlParams.get("id")} </h2>
-        <main className="w-3/5 mx-auto mt-8 flex flex-col gap-2">
+        <main className="w-3/5 md:w-4/5 mx-auto mt-8 flex flex-col md:grid md:grid-cols-3 gap-2">
           {
-            (actualProducts && newOrder) && actualProducts.map(product => {
-              return (
-                <article className="flex flex-row justify-center items-center shadow-[0_3px_10px_rgb(0,0,0,0.2)] font-mono">
-                  <div className="flex flex-row gap-3">
-                    <div className="md:w-2/5 h-full">
-                      <img className="w-full h-full" src={product.Menu.img} alt={`Imagen de ${product.Menu.nombre_producto}`} />
-                    </div>
-                  </div>
-                  <div className="flex flex-col gap-4 p-2">
-                    <h2 className="text-xl font-semibold text-dark text-pretty">
-                      {
-                        product.Menu.nombre_producto
-                      }
-                    </h2>
-                    <p className="text-md text-balance">
-                      {
-                        product.Menu.descripcion
-                      }
-                    </p>
-                    <div className="p-4 flex flex-col">
-                      <span>Precio: <strong>${product.Menu.precio} C/U </strong></span>
-                      <span>Cantidad: <strong>{newOrder.sellers.map(seller=> seller.id_menu == product.Menu.id_menu)} </strong></span>
-                      
-                    </div>
-                  </div>
-                </article>
-              )
+            (actualProducts && newOrder) && actualProducts.map(product =>{
+              const [cantidad] = newOrder.sellers.filter(seller=> seller.id_menu == product.Menu.id_menu ? seller : null)
+              return <CardPedidoProduct cantidad={cantidad.numbers} descripcion={product.Menu.descripcion} img={product.Menu.img} nombre={product.Menu.nombre_producto} price={product.Menu.precio} key={product.Menu.id_menu} />
             })
           }
         </main>
