@@ -6,7 +6,6 @@ import { Orders } from "../types/OrdersType"
 import { useOrderStorage } from "../zustand/OrderStorage"
 import { TypeInfoOrders } from "../types/UtilsTypes"
 import { Button } from "../components/UI/Button"
-import { UserByGetAll } from "../types/UserTypes"
 import { OrderCard } from "../components/UI/OrderCard"
 
 export const ControlPanel: React.FC = () => {
@@ -31,18 +30,9 @@ export const ControlPanel: React.FC = () => {
           })
           if (res.ok) {
             const response = await res.json() as Orders[]
-            const URL_ALL_USERS = import.meta.env.VITE_URL_API_GET_ALL_USERS
-            const usersResponse = await fetch(URL_ALL_USERS, {
-              headers: actualHeaders
-            })
-            const AllUsers = await usersResponse.json() as UserByGetAll[]
-            const UsersPedidos = AllUsers.filter((User)=>{
-              for (const iterator of response) {
-                return iterator.id_usuario  == User.id_usuario ? User : null
-              }
-            } )
+            response.sort((a, b)=> a.fecha_orden <= b.fecha_orden ? 1 : -1)
+            OrderStorage.setAllOrders(response)
             setLoad(false)
-            OrderStorage.setAllOrders(response, UsersPedidos)
           }
         }
       } catch (error) {
@@ -86,12 +76,12 @@ export const ControlPanel: React.FC = () => {
                 const resetFecha = `${año}-${mes}-${día}`;
                 if(resetFecha == order.fecha_orden.toString()){
                   return (
-                    <OrderCard key={order.id_order} codeFollowing={order.delivery.code_following} estado={order.delivery.state.name_state} fechaPedido={order.fecha_orden} idUser={order.id_usuario} totalPrice={order.total_price} ultimaMoficacion={order.delivery.fecha_modificacion}/>
+                    <OrderCard key={order.id_order} codeFollowing={order.delivery.code_following} estado={order.delivery.state.name_state} fechaPedido={order.fecha_orden} nombreUsuario={order.usuario.first_name + " " + order.usuario.last_name} totalPrice={order.total_price} ultimaMoficacion={order.delivery.fecha_modificacion}/>
                   )
                 }
               }else{
                 return (
-                  <OrderCard key={order.id_order} codeFollowing={order.delivery.code_following} estado={order.delivery.state.name_state} fechaPedido={order.fecha_orden} idUser={order.id_usuario} totalPrice={order.total_price} ultimaMoficacion={order.delivery.fecha_modificacion}/>
+                  <OrderCard key={order.id_order} codeFollowing={order.delivery.code_following} estado={order.delivery.state.name_state} fechaPedido={order.fecha_orden} nombreUsuario={order.usuario.first_name + " " + order.usuario.last_name} totalPrice={order.total_price} ultimaMoficacion={order.delivery.fecha_modificacion}/>
                 )
               }
               

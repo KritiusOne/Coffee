@@ -1,6 +1,8 @@
+import { Usuario } from "./UserTypes";
+
 export interface Orders {
   id_order:    number;
-  id_usuario:  number;
+  usuario:     Usuario;
   fecha_orden: Date;
   total_price: number;
   delivery:    Delivery;
