@@ -58,7 +58,6 @@ export const LogIn: React.FC = () => {
       })
       .then(response => {
         const newResponse = response as LoginResponse
-        console.log(newResponse)
         const parts = newResponse.access_token.split(".")
         const decodePayload = atob(parts[1])
         const parsedPayload: User = JSON.parse(decodePayload)

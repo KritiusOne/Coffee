@@ -24,7 +24,6 @@ export const CantProduct: React.FC<Props> = ({idProduct}) => {
       setCantidad(actualCantidad.stockSolicitado)
     }
   }
-  console.log(CartStorage)
   return (
     <div>
       <Button onClick={handleClickButton}>-</Button>
