@@ -13,7 +13,9 @@ export const SignIn: React.FC = () => {
     last_name: "",
     username: "",
     email: "",
-    password: ""
+    password: "",
+    phone: "",
+    Addres: ""
   })
   const [msg, setMsg] = useState("")
   const [mostrarMsg, setMostrarMsg] = useState(false)
@@ -61,6 +63,20 @@ export const SignIn: React.FC = () => {
       setMsg("El email tiene un formato erroneo o contiene caracteres invalidos")
     }
   }
+  const handleChangeTelefono = (e: ChangeEvent<HTMLInputElement>)=>{
+    if(e.target.value.trim().length == 10){
+      setMostrarMsg(false)
+      setTypeMsg("Succes")
+      setRegister({...register, phone: e.target.value.trim()})
+    }else{
+      setMostrarMsg(true)
+      setTypeMsg("Error")
+      setMsg("El formato del telefono no es el correcto, ingrese un telefono movil")
+    }
+  }
+  const handleChangeAddress = (e: ChangeEvent<HTMLInputElement>)=>{
+    setRegister({...register, Addres: e.target.value.trim()})
+  }
   const handleChangePassword = (e: ChangeEvent<HTMLInputElement>)=>{
     setRegister({...register, password: e.target.value.trim()})
   }
@@ -99,6 +115,8 @@ export const SignIn: React.FC = () => {
         <Input onChange={handleChangeLastName} typeInput="text" placeholder="Apellido" />
         <Input onChange={handleChangeUserName} typeInput="text" placeholder="Nombre de usuario" />
         <Input onChange={handleChangeEmail} typeInput="text" placeholder="Email" />
+        <Input onChange={handleChangeTelefono} typeInput="text" placeholder="Telefono" />
+        <Input onChange={handleChangeAddress} typeInput="text" placeholder="Direccion y descripcion" />
         <Input onChange={handleChangePassword} typeInput="password" placeholder="Password" />        
         <button onClick={handleClickButton} className="bg-action  hover:bg-white hover:text-dark text-white text-l px-2 py-1 rounded-md w-full hover:border-dark border-2 border-solid border-action">Registrarse</button>
         <Link to={PUBLIC_ROUTES.LOGIN} className="text-l hover:text-action" > ¿Ya está registrado? <strong>Iniciar sesión</strong></Link>
