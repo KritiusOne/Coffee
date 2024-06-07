@@ -15,7 +15,7 @@ export const SignIn: React.FC = () => {
     email: "",
     password: "",
     phone: "",
-    Addres: ""
+    addres: ""
   })
   const [msg, setMsg] = useState("")
   const [mostrarMsg, setMostrarMsg] = useState(false)
@@ -75,7 +75,7 @@ export const SignIn: React.FC = () => {
     }
   }
   const handleChangeAddress = (e: ChangeEvent<HTMLInputElement>)=>{
-    setRegister({...register, Addres: e.target.value.trim()})
+    setRegister({...register, addres: e.target.value.trim()})
   }
   const handleChangePassword = (e: ChangeEvent<HTMLInputElement>)=>{
     setRegister({...register, password: e.target.value.trim()})

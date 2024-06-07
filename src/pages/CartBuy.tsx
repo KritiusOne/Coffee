@@ -8,7 +8,7 @@ import { useCartStorage } from "../zustand/CartStorage"
 import { useUserStorage } from "../zustand/UserStorage"
 import { Modal } from "../components/Modal"
 import { useNavigate } from "react-router"
-import { PUBLIC_ROUTES } from "../routes/TypesRoutes"
+import { PRIVATE_CLIENT_ROUTES } from "../routes/TypesRoutes"
 
 export const CartBuy:React.FC = ()=>{
   const Storage = useCartStorage()
@@ -46,7 +46,7 @@ export const CartBuy:React.FC = ()=>{
       setModal(true)
       console.log(response)
       setTimeout(()=>{
-        navegate(PUBLIC_ROUTES.HOME)
+        navegate(PRIVATE_CLIENT_ROUTES.MY_PEDIDOS)
         Storage.deleteAllProducts()
       }, 3000)
     })
