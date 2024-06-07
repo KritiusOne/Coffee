@@ -11,7 +11,7 @@ import { useUserStorage } from "../zustand/UserStorage"
 import { TOKEN } from "../helpers/LocalStorageItems"
 import { ADMIN_ROUTES } from "../routes/TypesRoutes"
 
-type state_delivery = "new" | "preparacion" | "enviado" | "finalizado"
+type state_delivery = "new" | "preparacion" | "enviado" | "finalizado" | "cancel" | "Error"
 export const DetailsPedido = () => {
   const location = useLocation()
   const UrlParams = new URLSearchParams(location.search)
@@ -19,7 +19,7 @@ export const DetailsPedido = () => {
   const OrderStorage = useOrderStorage()
   const [actualProducts, setactualProducts] = useState<Menu[]>([])
   const [newOrder, setActualOrder] = useState<Orders>()
-  const [stateDel, setStateDel] = useState<state_delivery>("new")
+  const [stateDel, setStateDel] = useState<state_delivery>("Error")
   const UserStorage = useUserStorage()
   const navegate = useNavigate()
   useEffect(() => {
@@ -36,8 +36,10 @@ export const DetailsPedido = () => {
             setStateDel("preparacion")
           }else if(actualOrder.delivery.state.name_state == "enviado"){
             setStateDel("enviado")
-          }else{
+          }else if(actualOrder.delivery.state.name_state == "finalizado"){
             setStateDel("finalizado")
+          }else{
+            setStateDel("cancel")
           }
           const AllPresetProducts = AllProducts.filter(product => {
             for (const iterator of actualOrder.sellers) {
@@ -64,6 +66,19 @@ export const DetailsPedido = () => {
       {
         method: "PATCH",
         headers:{
+          Authorization: `${UserStorage.typeToken} ${actualToken}`
+        }
+      }
+    )
+    navegate(ADMIN_ROUTES.CONTROL_PANEL)
+  }
+  const hadleClickCancel = () => {
+    const URL_CANCEL = `${import.meta.env.VITE_URL_ORDER_CANCEL}${newOrder?.delivery.code_following}`
+    const actualToken = localStorage.getItem(TOKEN)
+    fetch(URL_CANCEL,
+      {
+        method: "PATCH",
+        headers: {
           Authorization: `${UserStorage.typeToken} ${actualToken}`
         }
       }
@@ -101,21 +116,34 @@ export const DetailsPedido = () => {
           {
             stateDel == "new" && (<>
             <Button onClick={handleClickChangeDelivery}> Aceptar orden </Button>
+            <Button onClick={hadleClickCancel} className="bg-red-700 border-red-700">Cancelar pedido</Button>
           </>)
           }
           {
             stateDel == "preparacion" && (<>
             <Button onClick={handleClickChangeDelivery}> Enviar Pedido </Button>
+            <Button onClick={hadleClickCancel} className="bg-red-700 border-red-700">Cancelar pedido</Button>
           </>)
           }
           {
             stateDel == "enviado" && (<>
             <Button onClick={handleClickChangeDelivery}> Finalizar orden </Button>
+            <Button onClick={hadleClickCancel} className="bg-red-700 border-red-700">Cancelar pedido</Button>
           </>)
           }
           {
             stateDel == "finalizado" && (<>
             <strong>Este pedido ya fue realizado</strong>
+          </>)
+          }
+          {
+            stateDel == "cancel" && (<>
+            <strong>Este pedido fue cancelado</strong>
+          </>)
+          }
+          {
+            stateDel == "Error" && (<>
+            <strong>Hubo un error con el servidor</strong>
           </>)
           }
         </footer>
