@@ -4,8 +4,8 @@ import { useOrderStorage } from "../zustand/OrderStorage";
 import { useUserStorage } from "../zustand/UserStorage";
 import { TOKEN } from "../helpers/LocalStorageItems";
 import { Orders } from "../types/OrdersType";
-import { OrderCard } from "../components/UI/OrderCard";
 import { Button } from "../components/UI/Button";
+import { CardOrderClient } from "../components/UI/CardOrderClient";
 
 export const MisPedidos: React.FC = () => {
   const OrderStorage = useOrderStorage()
@@ -28,7 +28,7 @@ export const MisPedidos: React.FC = () => {
           res.sort((a, b)=> a.fecha_orden <= b.fecha_orden ? 1 : -1)
           OrderStorage.setAllOrders(res)
           const actuales = res.filter(orden =>{
-            return  orden.delivery.state.name_state != "finalizado" ? orden : null
+            return  orden.delivery.state.name_state != "finalizado" && orden.delivery.state.name_state != "cancelado" ? orden : null
           })
           setOrdersView(actuales.length != 0 ? actuales : undefined)
         }
@@ -43,7 +43,7 @@ export const MisPedidos: React.FC = () => {
       setOrdersView(OrderStorage.AllOrders)
     }else{
       const actuales = OrderStorage.AllOrders.filter(orden =>{
-        return  orden.delivery.state.name_state != "finalizado" ? orden : null
+        return  orden.delivery.state.name_state != "finalizado" && orden.delivery.state.name_state != "cancelado" ? orden : null
       })
       setOrdersView(actuales.length != 0 ? actuales : undefined)
     }
@@ -58,7 +58,7 @@ export const MisPedidos: React.FC = () => {
         </div>
         <div className="flex flex-col gap-3 md:grid md:grid-cols-4">
           {
-            ordersView != undefined && ordersView.map(order=> <OrderCard key={order.id_order} codeFollowing={order.delivery.code_following} estado={order.delivery.state.name_state} fechaPedido={order.fecha_orden} nombreUsuario={order.usuario.first_name + " " + order.usuario.last_name} totalPrice={order.total_price} ultimaMoficacion={order.delivery.fecha_modificacion}/>)
+            ordersView != undefined && ordersView.map(order=> <CardOrderClient key={order.id_order} codeFollowing={order.delivery.code_following} estado={order.delivery.state.name_state} fechaPedido={order.fecha_orden} totalPrice={order.total_price} ultimaMoficacion={order.delivery.fecha_modificacion}/>)
           }
         </div>
         <div className="w-full text-center">

@@ -7,7 +7,8 @@ export const PUBLIC_ROUTES = {
 }
 export const PRIVATE_CLIENT_ROUTES = {
   CART_BUY: "/cart/buy",
-  MY_PEDIDOS: "/user/pedidos"
+  MY_PEDIDOS: "/user/pedidos",
+  DETAILS_PEDIDO_USER: "/user/pedidos/:id"
 }
 export const ADMIN_ROUTES = {
   CONTROL_PANEL: "/panel",
